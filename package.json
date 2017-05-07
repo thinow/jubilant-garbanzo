@@ -1,0 +1,7 @@
+{
+  "name": "genau-script",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Thierry Nowak <thinow@gmail.com>",
+  "license": "MIT"
+}
