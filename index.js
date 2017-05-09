@@ -1,16 +1,14 @@
 import assert from 'assert';
 import request from 'request';
+import xpath from 'xpath';
+import { DOMParser as dom } from 'xmldom';
 
-assert(process.env.API_KEY, 'process.env.API_KEY is mandatory');
+const uri = `https://www.scholingua.com/en/de/conjugation/vergessen`;
 
-const API_KEY = process.env.API_KEY;
-const uri = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
-
-const data = { q: 'machen', source: 'de', target: 'en' };
-
-request({ method: 'POST', uri, data }, (error, response, body) => {
+request(uri, (error, response, body) => {
   assert(!error, `Error during the request : ${error}`);
 
-  // console.log('Response:', response);
-  console.log('Body:', body);
+  var doc = new dom().parseFromString(body);
+  const found = xpath.select('//title', doc);
+  found.map(item => console.log('XPath:', item.firstChild.data));
 });
