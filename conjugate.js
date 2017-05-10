@@ -29,7 +29,7 @@ const findSimplePast = document => (
 
 const conjugate = infinitiv => {
   return new Promise((resolve, reject) => {
-    const uri = `https://www.scholingua.com/en/de/conjugation/${infinitiv}`;
+    const uri = `https://www.scholingua.com/en/de/conjugation/${encodeURIComponent(infinitiv)}`;
 
     request(uri, (error, response, body) => {
       if (error) reject(error);
