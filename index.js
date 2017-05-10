@@ -1,8 +1,5 @@
-import assert from 'assert';
 import request from 'request';
 import cheerio from 'cheerio';
-
-const uri = infinitiv => `https://www.scholingua.com/en/de/conjugation/${infinitiv}`;
 
 const findPerfect = document => (
   document('#konjugationstabellen')
@@ -30,11 +27,24 @@ const findSimplePast = document => (
     .text().split(',').shift()
 );
 
-request(uri('vergessen'), (error, response, body) => {
-  assert(!error, `Error during the request : ${error}`);
+const conjugate = infinitiv => {
+  return new Promise((resolve, reject) => {
+    const uri = `https://www.scholingua.com/en/de/conjugation/${infinitiv}`;
 
-  const document = cheerio.load(body);
+    request(uri, (error, response, body) => {
+      if (error) reject(error);
 
-  console.log('Perfekt :', findPerfect(document));
-  console.log('Simple past:', findSimplePast(document));
-});
+      const document = cheerio.load(body);
+
+      resolve({
+        perfect: findPerfect(document),
+        simplePast: findSimplePast(document)
+      })
+
+    });
+  });
+};
+
+conjugate('machen')
+  .then(console.log)
+  .catch(console.error);
