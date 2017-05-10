@@ -2,16 +2,23 @@ import assert from 'assert';
 import request from 'request';
 import cheerio from 'cheerio';
 
-const uri = `https://www.scholingua.com/en/de/conjugation/vergessen`;
+const uri = infinitiv => `https://www.scholingua.com/en/de/conjugation/${infinitiv}`;
 
-request(uri, (error, response, body) => {
-  assert(!error, `Error during the request : ${error}`);
+const findPerfect = document => (
+  document('#konjugationstabellen')
+    .children('div') // k_tabelle
+    .children('div').eq(0) // block
+    .children('div').eq(2)
+    .children('table')
+    .children('tr').eq(5)
+    .children('td').eq(1)
+    .children('div')
+    .children('div').eq(1)
+    .text().split(',').shift()
+);
 
-  const $ = cheerio.load(body);
-
-  //*[@id="konjugationstabellen"]/div/div[1]/div[2]/table/tbody/tr[6]/td[2]/div/div[2]
-
-  const found = $('#konjugationstabellen')
+const findSimplePast = document => (
+  document('#konjugationstabellen')
     .children('div') // k_tabelle
     .children('div').eq(0) // block
     .children('div').eq(1)
@@ -20,6 +27,14 @@ request(uri, (error, response, body) => {
     .children('td').eq(1)
     .children('div')
     .children('div').eq(1)
-    .text();
-  console.log(found);
+    .text().split(',').shift()
+);
+
+request(uri('vergessen'), (error, response, body) => {
+  assert(!error, `Error during the request : ${error}`);
+
+  const document = cheerio.load(body);
+
+  console.log('Perfekt :', findPerfect(document));
+  console.log('Simple past:', findSimplePast(document));
 });
