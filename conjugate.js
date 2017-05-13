@@ -27,7 +27,7 @@ const findSimplePast = document => (
     .text().split(',').shift()
 );
 
-const conjugate = infinitiv => {
+export const conjugate = infinitiv => {
   return new Promise((resolve, reject) => {
     const uri = `https://www.scholingua.com/en/de/conjugation/${encodeURIComponent(infinitiv)}`;
 
@@ -44,7 +44,3 @@ const conjugate = infinitiv => {
     });
   });
 };
-
-conjugate('machen')
-  .then(console.log)
-  .catch(console.error);
