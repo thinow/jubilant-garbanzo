@@ -5,6 +5,8 @@ import assert from 'assert';
 const OUTPUT_FILE = './output/import.json';
 
 const [,,filename] = process.argv;
+
+assert.ok(filename, 'Filename is missing');
 console.log('FILE:', filename);
 
 const input = fs.readFileSync(filename);

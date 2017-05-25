@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "conjugate": "babel-node conjugate.js",
-    "excel": "babel-node excel.js"
+    "excel-to-conjugate": "babel-node excel-to-conjugate.js",
+    "excel-to-json": "babel-node excel-to-json.js"
   },
   "dependencies": {
     "assert": "^1.4.1",
